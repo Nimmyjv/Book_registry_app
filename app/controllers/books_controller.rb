@@ -4,7 +4,8 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.all
+    order_by = params[:order_by] ? order_params.to_hash : :id
+    @books = Book.order(order_by)
   end
 
   # GET /books/1
@@ -28,7 +29,7 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: 'Book was successfully created.' }
+        format.html { redirect_to @book, notice: 'Book was successfully created.'}
         format.json { render :show, status: :created, location: @book }
       else
         format.html { render :new }
@@ -61,6 +62,10 @@ class BooksController < ApplicationController
     end
   end
 
+  def sort_by_name
+    # @books = Book.order(:name)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book
@@ -70,5 +75,9 @@ class BooksController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
       params.require(:book).permit(:name, :author, :isbn, :price, :category, :published)
+    end
+
+    def order_params
+      params.require(:order_by).permit(:name, :author, :isbn, :price, :category, :published)
     end
 end
