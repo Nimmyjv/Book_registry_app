@@ -1,6 +1,14 @@
 <p id="notice"><%= notice %></p>
 
 <h1>List all books</h1>
+<br>
+
+<%= form_tag(books_path, method: :get) do %>
+  <%= text_field_tag :search, params[:search], placeholder: '  Name or author or ISBN' %>
+  <%= submit_tag 'Search', name: nil %>
+<% end %>
+<br>
+<br>
 
 <table>
   <thead>

@@ -4,8 +4,12 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    order_by = params[:order_by] ? order_params.to_hash : :id
-    @books = Book.order(order_by)
+    if params[:search]
+      @books = Book.search(params[:search])
+    else
+      order_by = params[:order_by] ? order_params.to_hash : :id
+      @books = Book.order(order_by)
+    end
   end
 
   # GET /books/1
@@ -60,10 +64,6 @@ class BooksController < ApplicationController
       format.html { redirect_to books_url, notice: 'Book was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end
-
-  def sort_by_name
-    # @books = Book.order(:name)
   end
 
   private
