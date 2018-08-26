@@ -3,7 +3,7 @@ class Book < ApplicationRecord
   validates :isbn, presence: true, length: { is: 13 }
 
   def self.search(search)
-    where('name ILIKE ? OR author ILIKE ? OR isbn ILIKE ?',
-          "%#{search}%", "%#{search}%", "%#{search}%")
+    where('name iLike ? OR author iLike ? OR isbn=?', "%#{search}%", "%#{search}%", "#{search}")
   end
 end
+
