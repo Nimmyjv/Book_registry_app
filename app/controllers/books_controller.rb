@@ -5,7 +5,7 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     if params[:search]
-      @books = Book.search(params[:search])
+      @books = Book.search(params[:search], params[:sort])
     else
       order_by = params[:order_by] ? order_params.to_hash : :id
       @books = Book.order(order_by)
@@ -33,7 +33,7 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: 'Book was successfully created.'}
+        format.html { redirect_to @book, notice: 'Book was successfully created.' }
         format.json { render :show, status: :created, location: @book }
       else
         format.html { render :new }
